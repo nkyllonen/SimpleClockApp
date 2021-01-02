@@ -2,6 +2,10 @@
 var stopwatchTxt = document.getElementById("stopwatch");
 var stopwatchButton = document.getElementById("stopwatch-button");
 var countdown = document.getElementById("countdown");
+var minSelect = document.getElementById("minutes");
+var secSelect = document.getElementById("seconds");
+
+// initialize values
 var started = false;
 var currentWatch = 0;
 
@@ -34,3 +38,19 @@ setInterval( function() {
         stopwatchTxt.innerHTML = withZeroes.substr(withZeroes.length - 4);
     }
 }, 1000)
+
+window.onload = function() {
+    // fill minutes cascading menu
+    for (i = 0; i <= 99; i++) {
+        minSelect.options[minSelect.options.length] = new Option(i, i);
+    }
+    // fill seconds cascading menu
+    for (i = 0; i <= 59; i++) {
+        secSelect.options[secSelect.options.length] = new Option(i, i);
+    }
+
+    // set up calback functions for when a minute value is set
+    minSelect.onchange = function() {
+        
+    }
+}
