@@ -51,6 +51,12 @@ window.onload = function() {
 
     // set up calback functions for when a minute value is set
     minSelect.onchange = function() {
-        
+        var minWithZeroes = "0" + this.value;
+        var secWithZeroes = "00" + secSelect.value;
+        countdown.innerHTML = minWithZeroes.substr(minWithZeroes.length - 2)
+                                + ":" + secWithZeroes.substr(secWithZeroes.length - 2);
+
+        console.log("minutes: " + this.value);
+        console.log("seconds: " + secWithZeroes);
     }
 }
