@@ -15,7 +15,7 @@ stopwatchButton.addEventListener("click", stopwatch);
 // callback functions for button clicks
 function stopwatch() {    
     // stopwatch hasn't been started yet
-    if (startDate == false) {
+    if (started == false) {
         started = true;
         stopwatchTxt.innerHTML = "0000";
         stopwatchButton.innerHTML = "STOP";
@@ -49,10 +49,20 @@ window.onload = function() {
         secSelect.options[secSelect.options.length] = new Option(i, i);
     }
 
-    // set up calback functions for when a minute value is set
+    // set up calback function for when a minute value is set
     minSelect.onchange = function() {
         var minWithZeroes = "0" + this.value;
-        var secWithZeroes = "00" + secSelect.value;
+        var secWithZeroes = "00" + secSelect.value; // need two because initially empty
+        countdown.innerHTML = minWithZeroes.substr(minWithZeroes.length - 2)
+                                + ":" + secWithZeroes.substr(secWithZeroes.length - 2);
+
+        console.log("minutes: " + this.value);
+        console.log("seconds: " + secWithZeroes);
+    }
+    // set up calback function for when a second value is set
+    secSelect.onchange = function() {
+        var secWithZeroes = "0" + this.value;
+        var minWithZeroes = "00" + minSelect.value; // need two because initially empty
         countdown.innerHTML = minWithZeroes.substr(minWithZeroes.length - 2)
                                 + ":" + secWithZeroes.substr(secWithZeroes.length - 2);
 
