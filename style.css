@@ -1,0 +1,21 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    margin: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-item {
+    padding: 10px;
+}
