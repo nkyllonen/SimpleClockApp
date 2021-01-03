@@ -15,45 +15,48 @@ var pausedTimer = false;
 var mins = 0;
 var secs = 0;
 
-// listen for button clicks
+// EVENT LISTENERS //
 stopwatchButton.addEventListener("click", stopwatch);
 countdownButton.addEventListener("click", countdown);
 countdownPauseButton.addEventListener("click", countdownPause);
 
-// callback functions for button clicks
+// CALLBACK FUNCTIONS //
 function stopwatch() {    
     // stopwatch hasn't been started yet
     if (!startedWatch) {
-        startedWatch = true;
         stopwatchTxt.innerHTML = "0000";
         stopwatchButton.innerHTML = "STOP";
     }
     // stopwatch has already been started -- reset all values
     else {
-        startedWatch = false;
         currentWatch = 0;
         stopwatchTxt.innerHTML = "This is where my stopwatch will go."
         stopwatchButton.innerHTML = "START";
     }
+    startedWatch = !startedWatch;
 }
 
 function countdown() {
     // timer hasn't been started yet
     if (!startedTimer) {
-        startedTimer = true;
-        // store the currently selected min and sec values
+        // globally store the currently selected min and sec values
         mins = minSelect.value;
         secs = secSelect.value;
 
         console.log("mins: " + mins + "\n" + "secs: " + secs);
 
-        countdownButton.innerHTML = "STOP";
+        countdownButton.innerHTML = "RESET";
     }
     // timer has already been started -- reset values
     else {
-        startedTimer = false;
         countdownButton.innerHTML = "START";
+        mins = minSelect.value;
+        secs = secSelect.value;
+
+        // update displayed text
+        countdownTxt.innerHTML = padCountdownTimer("0" + mins, "0" + secs);
     }
+    startedTimer = !startedTimer;
 }
 
 function countdownPause() {
@@ -67,6 +70,11 @@ function countdownPause() {
         }
         pausedTimer = !pausedTimer;
     }
+}
+
+// HELPER FUNCTIONS //
+function padCountdownTimer(m, s) {
+    return m.substr(m.length - 2) + ":" + s.substr(s.length - 2);
 }
 
 // function called every x milliseconds
@@ -96,10 +104,7 @@ setInterval( function() {
             }
     
             // update displayed text
-            var minWithZeroes = "0" + mins;
-            var secWithZeroes = "0" + secs;
-            countdownTxt.innerHTML = minWithZeroes.substr(minWithZeroes.length - 2)
-                                        + ":" + secWithZeroes.substr(secWithZeroes.length - 2);
+            countdownTxt.innerHTML = padCountdownTimer("0" + mins, "0" + secs);
         }
     }
 }, 1000)
@@ -116,22 +121,12 @@ window.onload = function() {
 
     // set up calback function for when a minute value is set
     minSelect.onchange = function() {
-        var minWithZeroes = "0" + this.value;
-        var secWithZeroes = "00" + secSelect.value; // need two because initially empty
-        countdownTxt.innerHTML = minWithZeroes.substr(minWithZeroes.length - 2)
-                                + ":" + secWithZeroes.substr(secWithZeroes.length - 2);
-
-        console.log("minutes: " + minWithZeroes);
-        console.log("seconds: " + secWithZeroes);
+        // need two zeroes for seconds because initially empty
+        countdownTxt.innerHTML = padCountdownTimer("0" + this.value, "00" + secSelect.value);
     }
     // set up calback function for when a second value is set
     secSelect.onchange = function() {
-        var secWithZeroes = "0" + this.value;
-        var minWithZeroes = "00" + minSelect.value; // need two because initially empty
-        countdownTxt.innerHTML = minWithZeroes.substr(minWithZeroes.length - 2)
-                                + ":" + secWithZeroes.substr(secWithZeroes.length - 2);
-
-        console.log("minutes: " + minWithZeroes);
-        console.log("seconds: " + secWithZeroes);
+        // need two zeroes for minutes because initially empty
+        countdownTxt.innerHTML = padCountdownTimer("00" + minSelect.value, "0" + this.value);
     }
 }
