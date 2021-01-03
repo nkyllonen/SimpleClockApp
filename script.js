@@ -3,6 +3,7 @@ var stopwatchTxt = document.getElementById("stopwatch");
 var stopwatchButton = document.getElementById("stopwatch-button");
 var countdownTxt = document.getElementById("countdown");
 var countdownButton = document.getElementById("countdown-button");
+var countdownPauseButton = document.getElementById("countdown-pause");
 var minSelect = document.getElementById("minutes");
 var secSelect = document.getElementById("seconds");
 
@@ -10,17 +11,19 @@ var secSelect = document.getElementById("seconds");
 var startedWatch = false;
 var currentWatch = 0;
 var startedTimer = false;
+var pausedTimer = false;
 var mins = 0;
 var secs = 0;
 
 // listen for button clicks
 stopwatchButton.addEventListener("click", stopwatch);
 countdownButton.addEventListener("click", countdown);
+countdownPauseButton.addEventListener("click", countdownPause);
 
 // callback functions for button clicks
 function stopwatch() {    
     // stopwatch hasn't been started yet
-    if (startedWatch == false) {
+    if (!startedWatch) {
         startedWatch = true;
         stopwatchTxt.innerHTML = "0000";
         stopwatchButton.innerHTML = "STOP";
@@ -36,7 +39,7 @@ function stopwatch() {
 
 function countdown() {
     // timer hasn't been started yet
-    if (startedTimer == false) {
+    if (!startedTimer) {
         startedTimer = true;
         // store the currently selected min and sec values
         mins = minSelect.value;
@@ -53,6 +56,19 @@ function countdown() {
     }
 }
 
+function countdownPause() {
+    // only do something if the timer has started
+    if (startedTimer) {
+        if (!pausedTimer) {
+            countdownPauseButton.innerHTML = "RESUME";
+        }
+        else {
+            countdownPauseButton.innerHTML = "PAUSE";
+        }
+        pausedTimer = !pausedTimer;
+    }
+}
+
 // function called every x milliseconds
 setInterval( function() {
     // update stopwatch
@@ -63,7 +79,7 @@ setInterval( function() {
         stopwatchTxt.innerHTML = withZeroes.substr(withZeroes.length - 4);
     }
     // update countdown timer
-    if (startedTimer) {
+    if (startedTimer && !pausedTimer) {
         // check if we're done
         if (secs == 0 && mins == 0) {
             startedTimer = false;
