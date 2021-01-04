@@ -42,19 +42,20 @@ function countdown() {
         // globally store the currently selected min and sec values
         mins = minSelect.value;
         secs = secSelect.value;
-
-        console.log("mins: " + mins + "\n" + "secs: " + secs);
-
         countdownButton.innerHTML = "RESET";
     }
     // timer has already been started -- reset values
     else {
-        countdownButton.innerHTML = "START";
         mins = minSelect.value;
         secs = secSelect.value;
+        countdownButton.innerHTML = "START";
 
         // update displayed text
         countdownTxt.innerHTML = padCountdownTimer("0" + mins, "0" + secs);
+
+        // reset pause button in case it was set prior
+        pausedTimer = false;
+        countdownPauseButton.innerHTML = "PAUSE";
     }
     startedTimer = !startedTimer;
 }
@@ -91,7 +92,6 @@ setInterval( function() {
         // check if we're done
         if (secs == 0 && mins == 0) {
             startedTimer = false;
-            // countdownTxt.innerHTML = countdownTxt.innerHTML + " **DONE!!**";
             countdownButton.innerHTML = "START";
         }
         else {
